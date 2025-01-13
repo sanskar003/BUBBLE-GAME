@@ -1,11 +1,17 @@
-let timer = 60;
+let timer;
 let score = 0;
 let hitrn = 0;
+let timerint;
 
+const startButton = document.querySelector('#start-button');
 const pbtm = document.querySelector('#pbtm');
 const timerval = document.querySelector('#timerval');
 const hitval = document.querySelector('#hitval');
 const scoreval = document.querySelector('#scoreval');
+
+function clearHit() {
+    hitval.textContent = '';
+}
 
 function makeBubble() {
     let clutter = '';
@@ -17,13 +23,15 @@ function makeBubble() {
 }
 
 function runTimer() {
-    const timerint = setInterval(() => {
+    clearInterval(timerint); // Clear any existing timer interval
+    timerint = setInterval(() => {
         if (timer > 0) {
             timer--;
             timerval.textContent = timer;
         } else {
             clearInterval(timerint);
             pbtm.innerHTML = `<h1>GAME OVER</h1> <h3>YOUR SCORE: ${score}</h3>`;
+            clearHit(); // Clear the hit value when the game is over
         }
     }, 1000);
 }
@@ -47,6 +55,17 @@ pbtm.addEventListener('click', (details) => {
     }
 });
 
-makeBubble();
-runTimer();
-getNewHit();
+startButton.addEventListener('click', () => {
+    // Reset the game variables
+    timer = 60;
+    score = 0;
+    scoreval.textContent = score;
+    timerval.textContent = timer;
+    clearHit();
+    makeBubble();
+    runTimer();
+    getNewHit();
+});
+
+// Clear the initial hit value when the page loads
+clearHit();
