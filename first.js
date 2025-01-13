@@ -1,54 +1,52 @@
-var timer = 60;
-var score = 0;
-var hitrn = 0;
+let timer = 60;
+let score = 0;
+let hitrn = 0;
 
+const pbtm = document.querySelector('#pbtm');
+const timerval = document.querySelector('#timerval');
+const hitval = document.querySelector('#hitval');
+const scoreval = document.querySelector('#scoreval');
 
-function makeBubble () {
-    var clutter = '';
-
-for(var i=1 ; i<=176 ; i++){
-    var rn = Math.floor(Math.random()*10)
-   clutter += `<div class="bubble"> ${rn} </div>`;
-}
-
-document.querySelector('#pbtm').innerHTML = clutter;
-}
-
-
-
-function runTimer(){
-   var timerint = setInterval(function(){
-        if(timer>0){
-        timer--;
-        document.querySelector('#timerval').textContent = timer;
-    } else{
-        clearInterval(timerint);
-        document.querySelector("#pbtm").innerHTML = `<h1>GAME OVER</h1> <h3>YOUR SCORE : ${score}</h3>`;
+function makeBubble() {
+    let clutter = '';
+    for (let i = 1; i <= 108; i++) {
+        const rn = Math.floor(Math.random() * 10);
+        clutter += `<div class="bubble">${rn}</div>`;
     }
-    },1000);
+    pbtm.innerHTML = clutter;
 }
 
-
-function getNewHit(){
-    hitrn = Math.floor(Math.random()*10);
-    document.querySelector('#hitval').textContent = hitrn;
+function runTimer() {
+    const timerint = setInterval(() => {
+        if (timer > 0) {
+            timer--;
+            timerval.textContent = timer;
+        } else {
+            clearInterval(timerint);
+            pbtm.innerHTML = `<h1>GAME OVER</h1> <h3>YOUR SCORE: ${score}</h3>`;
+        }
+    }, 1000);
 }
 
-function increaseScore(){
+function getNewHit() {
+    hitrn = Math.floor(Math.random() * 10);
+    hitval.textContent = hitrn;
+}
+
+function increaseScore() {
     score += 10;
-    document.querySelector("#scoreval").textContent = score;
+    scoreval.textContent = score;
 }
 
-document.querySelector('#pbtm')
-    .addEventListener('click',function(details) {
-        var clickednum = Number(details.target.textContent);;
-        if(clickednum == hitrn){
-            increaseScore();
-            makeBubble();
-            getNewHit();
-}});
+pbtm.addEventListener('click', (details) => {
+    const clickednum = Number(details.target.textContent);
+    if (clickednum === hitrn) {
+        increaseScore();
+        makeBubble();
+        getNewHit();
+    }
+});
 
 makeBubble();
 runTimer();
 getNewHit();
-
